@@ -1,0 +1,1893 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tema 2: Curvas Planas, Ecuaciones Paramétricas y Coordenadas Polares | TecNM Cerro Azul</title>
+
+    <!-- Tipografías modernas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- MathJax para renderizar fórmulas matemáticas con calidad de libro -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --bg-main: #060a12;
+            --bg-card: #0d1424;
+            --bg-card-alt: #111a2e;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --cyan: #00d2ff;
+            --cyan-glow: rgba(0, 210, 255, 0.18);
+            --magenta: #ff2a85;
+            --magenta-glow: rgba(255, 42, 133, 0.18);
+            --green: #00e676;
+            --amber: #ffab00;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 85px;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-main);
+            background-image:
+                    radial-gradient(circle at 50% 10%, rgba(0, 210, 255, 0.12) 0%, transparent 50%),
+                    radial-gradient(circle at 85% 40%, rgba(255, 42, 133, 0.07) 0%, transparent 45%),
+                    radial-gradient(circle at 15% 75%, rgba(0, 210, 255, 0.08) 0%, transparent 45%);
+            color: var(--text-primary);
+            line-height: 1.65;
+            overflow-x: hidden;
+        }
+
+        /* ==================== BARRA DE NAVEGACIÓN ==================== */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(6, 10, 18, 0.88);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.7rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .nav-logos {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .nav-logos img {
+            height: 34px;
+            width: auto;
+            border-radius: 6px;
+            background: #ffffff;
+            padding: 2px;
+            object-fit: contain;
+        }
+
+        .brand-title {
+            font-weight: 800;
+            font-size: 1.05rem;
+            color: var(--cyan);
+            letter-spacing: 0.3px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 500;
+            padding: 0.42rem 0.75rem;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--cyan);
+            background: rgba(0, 210, 255, 0.08);
+            border-color: rgba(0, 210, 255, 0.25);
+        }
+
+        /* ==================== HERO / PORTADA ==================== */
+        .hero {
+            min-height: 78vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 1.5rem 3.5rem;
+            position: relative;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hero-logos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.8rem;
+            flex-wrap: wrap;
+        }
+
+        .logo-card {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.55rem 1rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        }
+
+        .logo-card img {
+            height: 52px;
+            width: auto;
+            background: #fff;
+            padding: 4px;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
+        .logo-card-text {
+            text-align: left;
+            font-size: 0.8rem;
+            line-height: 1.25;
+            color: var(--text-secondary);
+        }
+
+        .logo-card-text strong {
+            display: block;
+            color: #fff;
+            font-size: 0.88rem;
+        }
+
+        .badges-row {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1.6rem;
+        }
+
+        .pill-cyan {
+            padding: 0.42rem 1.15rem;
+            border-radius: 999px;
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: var(--cyan);
+            background: var(--cyan-glow);
+            border: 1px solid rgba(0, 210, 255, 0.45);
+            box-shadow: 0 0 18px rgba(0, 210, 255, 0.15);
+        }
+
+        .pill-magenta {
+            padding: 0.42rem 1.15rem;
+            border-radius: 999px;
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: #ff5ca8;
+            background: var(--magenta-glow);
+            border: 1px solid rgba(255, 42, 133, 0.45);
+            box-shadow: 0 0 18px rgba(255, 42, 133, 0.15);
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 4.2vw, 3.35rem);
+            font-weight: 800;
+            color: #f8fafc;
+            max-width: 960px;
+            line-height: 1.18;
+            margin-bottom: 1.2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 1.8vw, 1.18rem);
+            color: var(--text-secondary);
+            max-width: 760px;
+            margin-bottom: 1.6rem;
+        }
+
+        .group-banner {
+            background: linear-gradient(90deg, rgba(0,210,255,0.1), rgba(255,42,133,0.1));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 0.65rem 1.4rem;
+            border-radius: 10px;
+            font-size: 0.92rem;
+            color: #e2e8f0;
+            margin-bottom: 2rem;
+        }
+
+        .group-banner strong {
+            color: var(--cyan);
+        }
+
+        .teacher-card {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: #0d1322;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.95rem 1.6rem;
+            border-radius: 12px;
+            text-align: left;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+        }
+
+        .teacher-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            border: 2px solid var(--cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cyan);
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .teacher-info h3 {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.15rem;
+        }
+
+        .teacher-info p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* ==================== CONTENEDOR PRINCIPAL ==================== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        .topic-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 2.2rem;
+            margin-bottom: 3.2rem;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .topic-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--cyan), var(--magenta));
+        }
+
+        .topic-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .topic-badge {
+            background: rgba(0, 210, 255, 0.14);
+            color: var(--cyan);
+            border: 1px solid rgba(0, 210, 255, 0.4);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 0.35rem 0.85rem;
+            border-radius: 8px;
+        }
+
+        .topic-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        /* ==================== BLOQUES DE TEORÍA ==================== */
+        .theory-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 1.25rem;
+            margin-bottom: 1.8rem;
+        }
+
+        @media (max-width: 860px) {
+            .theory-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .info-box {
+            background: var(--bg-card-alt);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 12px;
+            padding: 1.35rem;
+        }
+
+        .info-box h4 {
+            color: var(--cyan);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 0.65rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-box p {
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .formula-box {
+            background: rgba(0, 210, 255, 0.05);
+            border: 1px solid rgba(0, 210, 255, 0.25);
+            border-radius: 12px;
+            padding: 1.35rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .formula-box h4 {
+            color: #ff5ca8;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ==================== EJERCICIO Y SIMULADOR ==================== */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.05fr;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        @media (max-width: 960px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .exercise-card {
+            background: #0a101d;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 1.5rem;
+        }
+
+        .problem-statement {
+            background: rgba(255, 42, 133, 0.08);
+            border-left: 4px solid var(--magenta);
+            padding: 1rem 1.15rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 1.25rem;
+            font-size: 0.95rem;
+        }
+
+        .problem-statement strong {
+            color: #ff7bb8;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .step {
+            margin-bottom: 1.1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+        }
+
+        .step:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-title {
+            display: inline-block;
+            background: rgba(0, 210, 255, 0.12);
+            color: var(--cyan);
+            font-weight: 700;
+            font-size: 0.82rem;
+            padding: 0.2rem 0.65rem;
+            border-radius: 6px;
+            margin-bottom: 0.45rem;
+        }
+
+        .step p {
+            font-size: 0.92rem;
+            color: #cbd5e1;
+        }
+
+        /* Tablas de valores */
+        .val-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.7rem 0;
+            font-size: 0.85rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .val-table th, .val-table td {
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 0.4rem 0.5rem;
+            text-align: center;
+        }
+
+        .val-table th {
+            background: rgba(0, 210, 255, 0.12);
+            color: var(--cyan);
+        }
+
+        /* Referencia APA 7 */
+        .apa-box {
+            margin-top: 1.2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 0.9rem 1.1rem;
+            font-size: 0.83rem;
+            color: var(--text-secondary);
+        }
+
+        .apa-box span {
+            display: block;
+            font-weight: 700;
+            color: var(--amber);
+            margin-bottom: 0.25rem;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .apa-text {
+            padding-left: 1.5rem;
+            text-indent: -1.5rem;
+        }
+
+        /* ==================== SIMULADOR INTERACTIVO ==================== */
+        .simulator-card {
+            background: #080d18;
+            border: 1px solid rgba(0, 210, 255, 0.28);
+            border-radius: 14px;
+            padding: 1.25rem;
+            box-shadow: inset 0 0 25px rgba(0, 210, 255, 0.04);
+        }
+
+        .sim-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.85rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .sim-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .live-dot {
+            width: 9px;
+            height: 9px;
+            background: var(--green);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--green);
+            display: inline-block;
+        }
+
+        .canvas-wrapper {
+            width: 100%;
+            background: #050811;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 340px;
+        }
+
+        .sim-controls {
+            background: var(--bg-card-alt);
+            border-radius: 10px;
+            padding: 0.95rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .control-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .control-row label {
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            min-width: 110px;
+        }
+
+        input[type="range"] {
+            flex: 1;
+            accent-color: var(--cyan);
+            cursor: pointer;
+        }
+
+        .btn {
+            background: rgba(0, 210, 255, 0.15);
+            color: var(--cyan);
+            border: 1px solid rgba(0, 210, 255, 0.4);
+            padding: 0.42rem 0.9rem;
+            border-radius: 7px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--cyan);
+            color: #050811;
+        }
+
+        .btn-magenta {
+            background: rgba(255, 42, 133, 0.15);
+            color: #ff6eb0;
+            border-color: rgba(255, 42, 133, 0.45);
+        }
+
+        .btn-magenta:hover {
+            background: var(--magenta);
+            color: #fff;
+        }
+
+        .readout-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.25rem;
+        }
+
+        .readout-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.45rem 0.65rem;
+            border-radius: 7px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        .readout-item span {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .readout-item strong {
+            color: var(--cyan);
+        }
+
+        /* ==================== FOOTER ==================== */
+        footer {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            background: #04070d;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================== BARRA SUPERIOR ==================== -->
+<nav class="navbar">
+    <a href="#inicio" class="nav-brand">
+        <div class="nav-logos">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRY1SMGQ9poNfaqXWsZieVbshrKZUx8f7qf3WUdN2JIx55VYwc-42gnAIxV&s=10" alt="Logo TecNM">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlypWfDroBt6YeUsa8jiU7tMLjeQS_fl1O5AB5-MahfFb4d_qiPUTP0EID&s=10" alt="Escudo IT Cerro Azul">
+        </div>
+        <span class="brand-title">TecNM | Cerro Azul</span>
+    </a>
+
+    <div class="nav-links">
+        <a href="#tema-2-1">2.1 Curvas Planas</a>
+        <a href="#tema-2-2">2.2 Representación Gráfica</a>
+        <a href="#tema-2-3">2.3 Derivada Paramétrica</a>
+        <a href="#tema-2-4">2.4 Longitud de Arco</a>
+        <a href="#tema-2-5">2.5 Coordenadas Polares</a>
+        <a href="#tema-2-6">2.6 Gráficas Polares</a>
+    </div>
+</nav>
+
+<!-- ==================== PORTADA / HERO ==================== -->
+<header id="inicio" class="hero">
+    <div class="hero-logos">
+        <div class="logo-card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRY1SMGQ9poNfaqXWsZieVbshrKZUx8f7qf3WUdN2JIx55VYwc-42gnAIxV&s=10" alt="Logo TecNM">
+            <div class="logo-card-text">
+                <strong>Tecnológico Nacional de México</strong>
+                Educación Superior Tecnológica
+            </div>
+        </div>
+
+        <div class="logo-card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlypWfDroBt6YeUsa8jiU7tMLjeQS_fl1O5AB5-MahfFb4d_qiPUTP0EID&s=10" alt="Escudo IT Cerro Azul">
+            <div class="logo-card-text">
+                <strong>Instituto Tecnológico de Cerro Azul</strong>
+                Ingeniería en Sistemas Computacionales
+            </div>
+        </div>
+    </div>
+
+    <div class="badges-row">
+        <span class="pill-cyan">Asignatura: Cálculo Vectorial</span>
+        <span class="pill-magenta">Ingeniería en Sistemas Computacionales</span>
+    </div>
+
+    <h1>Tema 2: Curvas Planas, Ecuaciones Paramétricas y Coordenadas Polares</h1>
+
+    <p class="hero-subtitle">
+        Simulador interactivo y guía didáctica paso a paso: De la trayectoria de una partícula en función del parámetro $t$ al análisis geométrico en el plano polar $(r, \theta)$.
+    </p>
+
+    <div class="group-banner">
+        Desarrollado por el <strong>Grupo 1 de Ingeniería en Sistemas Computacionales</strong> • 3er Semestre (Agosto - Diciembre 2026)
+    </div>
+
+    <div class="teacher-card">
+        <div class="teacher-icon">▣</div>
+        <div class="teacher-info">
+            <h3>Dr. Oscar Alberto Garizurieta Castillo</h3>
+            <p>Catedrático - Departamento de Ciencias Básicas • Instituto Tecnológico de Cerro Azul</p>
+        </div>
+    </div>
+</header>
+
+<!-- ==================== CONTENIDO PRINCIPAL ==================== -->
+<main class="container">
+
+    <!-- =================================================================
+         SUBTEMA 2.1
+    ================================================================== -->
+    <section id="tema-2-1" class="topic-section">
+        <div class="topic-header">
+            <span class="topic-badge">Subtema 2.1</span>
+            <h2 class="topic-title">Curvas planas y ecuaciones paramétricas</h2>
+        </div>
+
+        <div class="theory-grid">
+            <div class="info-box">
+                <h4>💡 ¿Qué es una ecuación paramétrica? (Explicación sencilla)</h4>
+                <p>
+                    En la preparatoria aprendimos que una gráfica normal depende de una sola fórmula, como $y = f(x)$. Sin embargo, imagina una abeja volando en círculos o haciendo piruetas: su ruta no puede escribirse como una función normal porque pasa varias veces por el mismo valor de $x$.
+                </p>
+                <p>
+                    La solución es usar una tercera variable llamada <strong>parámetro $t$</strong> (que casi siempre pensamos como el <strong>tiempo en segundos</strong>). Así, una fórmula nos dice la posición horizontal $x(t)$ y otra nos dice la altura $y(t)$ en cada instante $t$. Además, nos indica <strong>hacia dónde avanza</strong> la partícula (orientación).
+                </p>
+            </div>
+
+            <div class="formula-box">
+                <h4>📐 Fórmulas Clave</h4>
+                <p>Un punto en el plano se mueve según el parámetro $t$ en un intervalo $[a, b]$:</p>
+                $$x = f(t), \quad y = g(t), \quad a \le t \le b$$
+                <p style="font-size:0.86rem; color:var(--text-secondary);">
+                    <strong>Eliminar el parámetro:</strong> Consiste en despejar $t$ en una ecuación y sustituirla en la otra para obtener una sola ecuación con $x$ y $y$.
+                </p>
+            </div>
+        </div>
+
+        <div class="workspace-grid">
+            <!-- Ejercicio 2.1 -->
+            <div class="exercise-card">
+                <div class="problem-statement">
+                    <strong>📘 Ejercicio Resuelto (Stewart, 8.ª ed., Sección 10.1, Ejemplo 1):</strong>
+                    Bosqueje e identifique la curva definida por las ecuaciones paramétricas:
+                    $$x = t^2 - 2t, \quad y = t + 1 \quad \text{para } -2 \le t \le 4$$
+                    Indique con flechas la dirección en que se traza la curva y elimine el parámetro para encontrar su ecuación cartesiana.
+                </div>
+
+                <div class="step">
+                    <span class="step-title">Paso 1: Darle valores al tiempo ($t$)</span>
+                    <p>Elegimos números enteros sencillos desde $t = -2$ hasta $t = 4$ y los sustituimos en $x = t^2 - 2t$ y $y = t + 1$. Por ejemplo, para $t = -2$: $x = (-2)^2 - 2(-2) = 4 + 4 = 8$ y $y = -2 + 1 = -1$.</p>
+                    <table class="val-table">
+                        <thead>
+                        <tr><th>$t$</th><th>$-2$</th><th>$-1$</th><th>$0$</th><th>$1$</th><th>$2$</th><th>$3$</th><th>$4$</th></tr>
+                        </thead>
+                        <tbody>
+                        <tr><td><strong>$x$</strong></td><td>$8$</td><td>$3$</td><td>$0$</td><td>$-1$</td><td>$0$</td><td>$3$</td><td>$8$</td></tr>
+                        <tr><td><strong>$y$</strong></td><td>$-1$</td><td>$0$</td><td>$1$</td><td>$2$</td><td>$3$</td><td>$4$</td><td>$5$</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="step">
+                    <span class="step-title">Paso 2: Despejar $t$ en la ecuación más fácil</span>
+                    <p>Miramos ambas fórmulas y vemos que $y = t + 1$ es muy sencilla. Pasamos el $1$ restando al otro lado:</p>
+                    $$t = y - 1$$
+                </div>
+
+                <div class="step">
+                    <span class="step-title">Paso 3: Sustituir $t$ en la ecuación de $x$</span>
+                    <p>Reemplazamos cada $t$ por $(y - 1)$ dentro de $x = t^2 - 2t$ y desarrollamos el binomio:</p>
+                    $$x = (y - 1)^2 - 2(y - 1)$$
+                    $$x = (y^2 - 2y + 1) - 2y + 2 \implies \mathbf{x = y^2 - 4y + 3}$$
+                    <p>¡Listo! Como la $y$ está al cuadrado, concluimos que la curva es una <strong>parábola horizontal que abre hacia la derecha</strong> con vértice en $(-1, 2)$.</p>
+                </div>
+
+                <div class="apa-box">
+                    <span>📚 Referencia Bibliográfica:</span>
+                    <p class="apa-text">
+                        Stewart, J. (2018). <em>Cálculo de varias variables: Trascendentes tempranas</em> (8.ª ed., p. 641). Cengage Learning.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Simulador 2.1 -->
+            <div class="simulator-card">
+                <div class="sim-header">
+                    <div class="sim-title"><span class="live-dot"></span> Simulador 2.1: Trayectoria de la Parábola</div>
+                    <div>
+                        <button class="btn" id="play-2-1">▶ Animar</button>
+                        <button class="btn btn-magenta" id="reset-2-1">↺ Reiniciar</button>
+                    </div>
+                </div>
+
+                <div class="canvas-wrapper">
+                    <canvas id="canvas-2-1"></canvas>
+                </div>
+
+                <div class="sim-controls">
+                    <div class="control-row">
+                        <label for="slider-2-1">Parámetro $t$:</label>
+                        <input type="range" id="slider-2-1" min="-2" max="4" step="0.05" value="1">
+                    </div>
+                    <div class="readout-bar">
+                        <div class="readout-item"><span>Valor de $t$</span><strong id="out-2-1-t">1.00</strong></div>
+                        <div class="readout-item"><span>Posición $x(t)$</span><strong id="out-2-1-x">-1.00</strong></div>
+                        <div class="readout-item"><span>Posición $y(t)$</span><strong id="out-2-1-y">2.00</strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =================================================================
+         SUBTEMA 2.2
+    ================================================================== -->
+    <section id="tema-2-2" class="topic-section">
+        <div class="topic-header">
+            <span class="topic-badge">Subtema 2.2</span>
+            <h2 class="topic-title">Ecuaciones paramétricas de algunas curvas y su representación gráfica</h2>
+        </div>
+
+        <div class="theory-grid">
+            <div class="info-box">
+                <h4>💡 ¿Cómo dibujamos curvas cerradas como círculos o elipses?</h4>
+                <p>
+                    Si intentas graficar un círculo completo en una calculadora tradicional usando $y = \sqrt{r^2 - x^2}$, solo obtendrás la mitad superior. En cambio, con ecuaciones paramétricas es sumamente fácil usando las funciones <strong>coseno</strong> y <strong>seno</strong>.
+                </p>
+                <p>
+                    El coseno controla el movimiento de izquierda a derecha ($x$) y el seno controla el movimiento de abajo hacia arriba ($y$). Cuando el ángulo $t$ da una vuelta completa de $0$ a $2\pi$ radianes ($360^\circ$), ¡el punto dibuja un círculo perfecto!
+                </p>
+            </div>
+
+            <div class="formula-box">
+                <h4>📐 Fórmulas de Curvas Clásicas</h4>
+                <p><strong>Circunferencia de radio $r$:</strong></p>
+                $$x = r\cos(t), \quad y = r\sin(t), \quad 0 \le t \le 2\pi$$
+                <p><strong>Identidad pitagórica para eliminar $t$:</strong></p>
+                $$\cos^2(t) + \sin^2(t) = 1$$
+            </div>
+        </div>
+
+        <div class="workspace-grid">
+            <!-- Ejercicio 2.2 -->
+            <div class="exercise-card">
+                <div class="problem-statement">
+                    <strong>📘 Ejercicio Resuelto (Stewart, 8.ª ed., Sección 10.1, Ejemplo 2):</strong>
+                    ¿Qué curva representan las siguientes ecuaciones paramétricas?
+                    $$x = 2\cos(t), \quad y = 2\sin(t), \quad 0 \le t \le 2\pi$$
+                    Grafique la trayectoria y describa el movimiento del punto.
+                </div>
+
+                <div class="step">
+                    <span class="step-title">Paso 1: Evaluar los 4 ángulos principales del reloj</span>
+                    <p>Sustituimos los ángulos clave entre $0$ y $2\pi$ para ver por dónde pasa la partícula:</p>
+                    <table class="val-table">
+                        <thead>
+                        <tr><th>Ángulo $t$</th><th>$0$ ($0^\circ$)</th><th>$\pi/2$ ($90^\circ$)</th><th>$\pi$ ($180^\circ$)</th><th>$3\pi/2$ ($270^\circ$)</th><th>$2\pi$ ($360^\circ$)</th></tr>
+                        </thead>
+                        <tbody>
+                        <tr><td><strong>$x = 2\cos(t)$</strong></td><td>$2(1) = 2$</td><td>$2(0) = 0$</td><td>$2(-1) = -2$</td><td>$2(0) = 0$</td><td>$2(1) = 2$</td></tr>
+                        <tr><td><strong>$y = 2\sin(t)$</strong></td><td>$2(0) = 0$</td><td>$2(1) = 2$</td><td>$2(0) = 0$</td><td>$2(-1) = -2$</td><td>$2(0) = 0$</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="step">
+                    <span class="step-title">Paso 2: Comprobar con la identidad trigonométrica</span>
+                    <p>Si elevamos al cuadrado ambas ecuaciones y las sumamos para eliminar $t$:</p>
+                    $$x^2 + y^2 = (2\cos t)^2 + (2\sin t)^2 = 4\cos^2(t) + 4\sin^2(t)$$
+                    $$x^2 + y^2 = 4(\cos^2 t + \sin^2 t) = 4(1) \implies \mathbf{x^2 + y^2 = 2^2}$$
+                </div>
+
+                <div class="step">
+                    <span class="step-title">Paso 3: Interpretación gráfica</span>
+                    <p>La ecuación $x^2 + y^2 = 4$ representa una <strong>circunferencia centrada en el origen $(0,0)$ con radio $r = 2$</strong>. La partícula arranca en $(2,0)$ y gira en sentido contrario a las manecillas del reloj hasta completar una vuelta en $t = 2\pi$.</p>
+                </div>
+
+                <div class="apa-box">
+                    <span>📚 Referencia Bibliográfica:</span>
+                    <p class="apa-text">
+                        Stewart, J. (2018). <em>Cálculo de varias variables: Trascendentes tempranas</em> (8.ª ed., p. 642). Cengage Learning.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Simulador 2.2 -->
+            <div class="simulator-card">
+                <div class="sim-header">
+                    <div class="sim-title"><span class="live-dot"></span> Simulador 2.2: Generador Circular</div>
+                    <div>
+                        <button class="btn" id="play-2-2">▶ Animar</button>
+                        <button class="btn btn-magenta" id="reset-2-2">↺ Ejercicio ($r=2$)</button>
+                    </div>
+                </div>
+
+                <div class="canvas-wrapper">
+                    <canvas id="canvas-2-2"></canvas>
+                </div>
+
+                <div class="sim-controls">
+                    <div class="control-row">
+                        <label for="slider-2-2">Ángulo $t$ (rad):</label>
+                        <input type="range" id="slider-2-2" min="0" max="6.283" step="0.03" value="1.05">
+                    </div>
+                    <div class="control-row">
+                        <label for="slider-2-2-r">Radio $r$:</label>
+                        <input type="range" id="slider-2-2-r" min="1" max="3.5" step="0.5" value="2">
+                    </div>
+                    <div class="readout-bar">
+                        <div class="readout-item"><span>Ángulo $t$</span><strong id="out-2-2-t">1.05 rad (60°)</strong></div>
+                        <div class="readout-item"><span>$x = r\cos(t)$</span><strong id="out-2-2-x">1.00</strong></div>
+                        <div class="readout-item"><span>$y = r\sin(t)$</span><strong id="out-2-2-y">1.73</strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =================================================================
+         SUBTEMA 2.3
+    ================================================================== -->
+    <section id="tema-2-3" class="topic-section">
+        <div class="topic-header">
+            <span class="topic-badge">Subtema 2.3</span>
+            <h2 class="topic-title">Derivada de una función dada paramétricamente</h2>
+        </div>
+
+        <div class="theory-grid">
+            <div class="info-box">
+                <h4>💡 ¿Cómo calculamos la pendiente sin eliminar la $t$?</h4>
+                <p>
+                    Recordemos que la <strong>derivada $\frac{dy}{dx}$</strong> significa la <strong>pendiente (inclinación) de la recta tangente</strong> a una curva en un punto.
+                </p>
+                <p>
+                    Cuando tenemos ecuaciones con $t$, no hace falta despejar ni complicarse. Basta con derivar por separado la fórmula de $y$ respecto a $t$, derivar la fórmula de $x$ respecto a $t$, y <strong>dividir el resultado de $y'$ entre el de $x'$</strong>.
+                </p>
+            </div>
+
+            <div class="formula-box">
+                <h4>📐 Fórmula de la Derivada Paramétrica</h4>
+                $$\frac{dy}{dx} = \frac{\cfrac{dy}{dt}}{\cfrac{dx}{dt}} \quad \text{siempre que } \frac{dx}{dt} \neq 0$$
+                <p style="font-size:0.85rem; color:var(--text-secondary);">
+                    • <strong>Tangente horizontal:</strong> Cuando $\frac{dy}{dt} = 0$.<br>
+                    • <strong>Tangente vertical:</strong> Cuando $\frac{dx}{dt} = 0$.
+                </p>
+            </div>
+        </div>
+
+        <div class="workspace-grid">
+            <!-- Ejercicio 2.3 -->
+            <div class="exercise-card">
+                <div class="problem-statement">
+                    <strong>📘 Ejercicio Resuelto (Stewart, 8.ª ed., Sección 10.2, Ejemplo 1):</strong>
+                    Una curva está definida por las ecuaciones paramétricas:
+                    $$x = t^2, \quad y = t^3 - 3t$$
+                    a) Halle la derivada $\frac{dy}{dx}$ en función de $t$.<br>
+                    b) Determine la pendiente y la ecuación de la recta tangente cuando $t = 2$.
+                </div>
+
+                <div class="step">
+                    <span class="step-title">Paso 1: Derivar $x$ y $y$ por separado respecto a $t$</span>
+                    <p>Usando la regla básica de potencias ($\frac{d}{dt}[t^n] = n t^{n-1}$):</p>
+                    $$\frac{dx}{dt} = 2t \qquad \text{y} \qquad \frac{dy}{dt} = 3t^2 - 3$$
+                </div>
+
+                <div class="step">
+                    <span class="step-title">Paso 2: Dividir $\frac{dy/dt}{dx/dt}$ para obtener la derivada general</span>
+                    $$\frac{dy}{dx} = \frac{3t^2 - 3}{2t}$$
+                </div>
+
+                <div class="step">
+                    <span class="step-title">Paso 3: Evaluar en $t = 2$ para hallar la recta tangente</span>
+                    <p>1. Buscamos las coordenadas del punto sustituyendo $t = 2$ en las ecuaciones originales:</p>
+                    $$x(2) = (2)^2 = 4, \quad y(2) = (2)^3 - 3(2) = 8 - 6 = 2 \implies \text{Punto } P(4, 2)$$
+                    <p>2. Calculamos la pendiente $m$ sustituyendo $t = 2$ en nuestra derivada:</p>
+                    $$m = \left.\frac{dy}{dx}\right|_{t=2} = \frac{3(2)^2 - 3}{2(2)} = \frac{12 - 3}{4} = \mathbf{\frac{9}{4} = 2.25}$$
+                    <p>3. Usamos la fórmula punto-pendiente $y - y_1 = m(x - x_1)$:</p>
+                    $$y - 2 = \frac{9}{4}(x - 4) \implies \mathbf{y = \frac{9}{4}x - 7}$$
+                </div>
+
+                <div class="apa-box">
+                    <span>📚 Referencia Bibliográfica:</span>
+                    <p class="apa-text">
+                        Stewart, J. (2018). <em>Cálculo de varias variables: Trascendentes tempranas</em> (8.ª ed., p. 651). Cengage Learning.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Simulador 2.3 -->
+            <div class="simulator-card">
+                <div class="sim-header">
+                    <div class="sim-title"><span class="live-dot"></span> Simulador 2.3: Recta Tangente en Vivo</div>
+                    <div>
+                        <button class="btn" id="btn-t2-2-3">Ir a $t = 2$ (Ejercicio)</button>
+                        <button class="btn btn-magenta" id="btn-horiz-2-3">Tangente Horizontal ($t=1$)</button>
+                    </div>
+                </div>
+
+                <div class="canvas-wrapper">
+                    <canvas id="canvas-2-3"></canvas>
+                </div>
+
+                <div class="sim-controls">
+                    <div class="control-row">
+                        <label for="slider-2-3">Mover punto ($t$):</label>
+                        <input type="range" id="slider-2-3" min="-2.2" max="2.2" step="0.05" value="2">
+                    </div>
+                    <div class="readout-bar">
+                        <div class="readout-item"><span>Parámetro $t$</span><strong id="out-2-3-t">2.00</strong></div>
+                        <div class="readout-item"><span>Punto $(x, y)$</span><strong id="out-2-3-pt">(4.00, 2.00)</strong></div>
+                        <div class="readout-item"><span>Pendiente $dy/dx$</span><strong id="out-2-3-m">2.25 (9/4)</strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =================================================================
+         SUBTEMA 2.4
+    ================================================================== -->
+    <section id="tema-2-4" class="topic-section">
+        <div class="topic-header">
+            <span class="topic-badge">Subtema 2.4</span>
+            <h2 class="topic-title">Longitud de arco en forma paramétrica</h2>
+        </div>
+
+        <div class="theory-grid">
+            <div class="info-box">
+                <h4>💡 ¿Cómo medimos una curva con el Teorema de Pitágoras?</h4>
+                <p>
+                    Imagina que colocas un hilo sobre una carretera curva desde un tiempo inicial $t = a$ hasta un tiempo final $t = b$, y luego estiras el hilo sobre una regla para ver cuánto mide. Eso es la <strong>longitud de arco ($L$)</strong>.
+                </p>
+                <p>
+                    Matemáticamente, dividimos la curva en pedacitos diminutos y usamos el Teorema de Pitágoras ($\sqrt{(dx)^2 + (dy)^2}$). La integral simplemente suma todos esos pequeños tramos.
+                </p>
+            </div>
+
+            <div class="formula-box">
+                <h4>📐 Fórmula de Longitud de Arco</h4>
+                <p>Si la curva se recorre una vez desde $t = a$ hasta $t = b$:</p>
+                $$L = \int_{a}^{b} \sqrt{\left(\frac{dx}{dt}\right)^2 + \left(\frac{dy}{dt}\right)^2} \, dt$$
+            </div>
+        </div>
+
+        <div class="workspace-grid">
+            <!-- Ejercicio 2.4 -->
+            <div class="exercise-card">
+                <div class="problem-statement">
+                    <strong>📘 Ejercicio Resuelto (Stewart, 8.ª ed., Sección 10.2, Ejercicio 41):</strong>
+                    Calcule la longitud exacta de la curva dada por las ecuaciones paramétricas:
+                    $$x = 1 + 3t^2, \quad y = 4 + 2t^3, \quad \text{para } 0 \le t \le 1$$
+                </div>
+
+                <div class="step">
+                    <span class="step-title">Paso 1: Obtener las derivadas $\frac{dx}{dt}$ y $\frac{dy}{dt}$</span>
+                    <p>Derivamos cada ecuación respecto a $t$:</p>
+                    $$\frac{dx}{dt} = 6t \qquad \text{y} \qquad \frac{dy}{dt} = 6t^2$$
+                </div>
+
+                <div class="step">
+                    <span class="step-title">Paso 2: Sustituir dentro de la raíz cuadrada y simplificar</span>
+                    $$\left(\frac{dx}{dt}\right)^2 + \left(\frac{dy}{dt}\right)^2 = (6t)^2 + (6t^2)^2 = 36t^2 + 36t^4$$
+                    <p>Factorizamos $36t^2$ para poder sacarlo fácilmente de la raíz cuadrada ($\sqrt{36t^2} = 6t$):</p>
+                    $$\sqrt{36t^2(1 + t^2)} = 6t\sqrt{1 + t^2}$$
+                </div>
+
+                <div class="step">
+                    <span class="step-title">Paso 3: Resolver la integral definida de $0$ a $1$</span>
+                    $$L = \int_{0}^{1} 6t\sqrt{1 + t^2} \, dt$$
+                    <p>Hacemos un cambio de variable sencillo: sea $u = 1 + t^2$, entonces $du = 2t\,dt$ (por lo que $6t\,dt = 3\,du$):</p>
+                    $$L = \left[ 2(1 + t^2)^{3/2} \right]_{0}^{1} = 2(1 + 1^2)^{3/2} - 2(1 + 0^2)^{3/2}$$
+                    $$L = 2(2)^{3/2} - 2(1) = \mathbf{4\sqrt{2} - 2 \approx 3.6569 \text{ unidades}}$$
+                </div>
+
+                <div class="apa-box">
+                    <span>📚 Referencia Bibliográfica:</span>
+                    <p class="apa-text">
+                        Stewart, J. (2018). <em>Cálculo de varias variables: Trascendentes tempranas</em> (8.ª ed., p. 656). Cengage Learning.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Simulador 2.4 -->
+            <div class="simulator-card">
+                <div class="sim-header">
+                    <div class="sim-title"><span class="live-dot"></span> Simulador 2.4: Cinta Métrica de Arco</div>
+                    <div>
+                        <button class="btn" id="reset-2-4">↺ Intervalo del Ejercicio $[0, 1]$</button>
+                    </div>
+                </div>
+
+                <div class="canvas-wrapper">
+                    <canvas id="canvas-2-4"></canvas>
+                </div>
+
+                <div class="sim-controls">
+                    <div class="control-row">
+                        <label for="slider-2-4-a">Inicio $t_a$:</label>
+                        <input type="range" id="slider-2-4-a" min="0" max="0.8" step="0.05" value="0">
+                    </div>
+                    <div class="control-row">
+                        <label for="slider-2-4-b">Final $t_b$:</label>
+                        <input type="range" id="slider-2-4-b" min="0.2" max="1.2" step="0.05" value="1">
+                    </div>
+                    <div class="readout-bar">
+                        <div class="readout-item"><span>Intervalo $[a, b]$</span><strong id="out-2-4-int">[0.00, 1.00]</strong></div>
+                        <div class="readout-item"><span>Punto Final $(x, y)$</span><strong id="out-2-4-pt">(4.00, 6.00)</strong></div>
+                        <div class="readout-item"><span>Longitud $L$ medida</span><strong id="out-2-4-len">3.6569 u</strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =================================================================
+         SUBTEMA 2.5
+    ================================================================== -->
+    <section id="tema-2-5" class="topic-section">
+        <div class="topic-header">
+            <span class="topic-badge">Subtema 2.5</span>
+            <h2 class="topic-title">Coordenadas polares</h2>
+        </div>
+
+        <div class="theory-grid">
+            <div class="info-box">
+                <h4>💡 ¿Cómo funciona un radar? (El sistema polar)</h4>
+                <p>
+                    En el plano cartesiano llegamos a un punto caminando "$x$ pasos a la derecha y $y$ pasos hacia arriba". En cambio, las <strong>coordenadas polares $(r, \theta)$</strong> funcionan exactamente como el radar de un avión o un barco:
+                </p>
+                <p>
+                    1. Primero giras un <strong>ángulo $\theta$</strong> desde el eje horizontal positivo.<br>
+                    2. Luego caminas en línea recta una <strong>distancia $r$</strong> desde el centro (llamado <em>polo</em>).
+                </p>
+            </div>
+
+            <div class="formula-box">
+                <h4>📐 Conversión Polar ↔ Cartesiana</h4>
+                <p><strong>De Polar $(r, \theta)$ a Cartesiana $(x, y)$:</strong></p>
+                $$x = r\cos(\theta), \qquad y = r\sin(\theta)$$
+                <p><strong>De Cartesiana $(x, y)$ a Polar $(r, \theta)$:</strong></p>
+                $$r = \sqrt{x^2 + y^2}, \qquad \tan(\theta) = \frac{y}{x}$$
+            </div>
+        </div>
+
+        <div class="workspace-grid">
+            <!-- Ejercicio 2.5 -->
+            <div class="exercise-card">
+                <div class="problem-statement">
+                    <strong>📘 Ejercicio Resuelto (Larson & Edwards, 10.ª ed., Sección 10.4, Ejemplo 1):</strong>
+                    Convierta el punto dado en coordenadas polares $(r, \theta) = \left(2, \frac{\pi}{3}\right)$ a coordenadas rectangulares (cartesianas) $(x, y)$ y ubíquelo en el plano polar.
+                </div>
+
+                <div class="step">
+                    <span class="step-title">Paso 1: Identificar los datos</span>
+                    <p>Tenemos la distancia al centro $r = 2$ y el ángulo $\theta = \frac{\pi}{3}\text{ rad}$ (que equivale a $60^\circ$).</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-title">Paso 2: Calcular la coordenada horizontal $x$</span>
+                    <p>Usamos la fórmula $x = r\cos(\theta)$. Recordando que $\cos\left(\frac{\pi}{3}\right) = \cos(60^\circ) = 0.5$:</p>
+                    $$x = 2\cos\left(\frac{\pi}{3}\right) = 2\left(\frac{1}{2}\right) = \mathbf{1}$$
+                </div>
+
+                <div class="step">
+                    <span class="step-title">Paso 3: Calcular la coordenada vertical $y$</span>
+                    <p>Usamos la fórmula $y = r\sin(\theta)$. Recordando que $\sin\left(\frac{\pi}{3}\right) = \sin(60^\circ) = \frac{\sqrt{3}}{2} \approx 0.866$:</p>
+                    $$y = 2\sin\left(\frac{\pi}{3}\right) = 2\left(\frac{\sqrt{3}}{2}\right) = \mathbf{\sqrt{3} \approx 1.732}$$
+                    <p>Por lo tanto, el punto polar $\left(2, \frac{\pi}{3}\right)$ es exactamente el punto cartesiano <strong>$(1, \sqrt{3})$</strong>.</p>
+                </div>
+
+                <div class="apa-box">
+                    <span>📚 Referencia Bibliográfica:</span>
+                    <p class="apa-text">
+                        Larson, R., & Edwards, B. H. (2016). <em>Cálculo: Tomo II</em> (10.ª ed., p. 728). Cengage Learning.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Simulador 2.5 -->
+            <div class="simulator-card">
+                <div class="sim-header">
+                    <div class="sim-title"><span class="live-dot"></span> Simulador 2.5: Radar Conversor Polar</div>
+                    <div>
+                        <button class="btn" id="btn-ex-2-5">Cargar $(2, \pi/3)$ del Ejercicio</button>
+                    </div>
+                </div>
+
+                <div class="canvas-wrapper">
+                    <canvas id="canvas-2-5"></canvas>
+                </div>
+
+                <div class="sim-controls">
+                    <div class="control-row">
+                        <label for="slider-2-5-r">Radio $r$:</label>
+                        <input type="range" id="slider-2-5-r" min="0.5" max="3.5" step="0.1" value="2">
+                    </div>
+                    <div class="control-row">
+                        <label for="slider-2-5-th">Ángulo $\theta$ (grados):</label>
+                        <input type="range" id="slider-2-5-th" min="0" max="360" step="5" value="60">
+                    </div>
+                    <div class="readout-bar">
+                        <div class="readout-item"><span>Polar $(r, \theta)$</span><strong id="out-2-5-pol">(2.0, 60°)</strong></div>
+                        <div class="readout-item"><span>Cartesiana $x$</span><strong id="out-2-5-x">1.000</strong></div>
+                        <div class="readout-item"><span>Cartesiana $y$</span><strong id="out-2-5-y">1.732</strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =================================================================
+         SUBTEMA 2.6
+    ================================================================== -->
+    <section id="tema-2-6" class="topic-section">
+        <div class="topic-header">
+            <span class="topic-badge">Subtema 2.6</span>
+            <h2 class="topic-title">Gráficas de ecuaciones polares</h2>
+        </div>
+
+        <div class="theory-grid">
+            <div class="info-box">
+                <h4>💡 ¿Por qué las ecuaciones polares crean flores y corazones?</h4>
+                <p>
+                    En coordenadas polares, el radio $r$ cambia a medida que giramos el ángulo $\theta$. Imagina un brazo mecánico que gira y al mismo tiempo se estira y se encoge: cuando $\cos(n\theta)$ vale $1$, el brazo se estira al máximo formando la <strong>punta de un pétalo</strong>; cuando vale $0$, el brazo regresa al centro.
+                </p>
+                <p>
+                    Así, con una ecuación cortita como $r = a\cos(n\theta)$, podemos dibujar figuras simétricas complejas llamadas <strong>Rosas Polares</strong> o <strong>Cardioides</strong>.
+                </p>
+            </div>
+
+            <div class="formula-box">
+                <h4>📐 Ecuaciones de Rosas Polares</h4>
+                $$r = a\cos(n\theta) \quad \text{o} \quad r = a\sin(n\theta)$$
+                <p style="font-size:0.86rem; color:var(--text-secondary);">
+                    • Si $n$ es <strong>impar</strong>, la rosa tiene exactamente <strong>$n$ pétalos</strong>.<br>
+                    • Si $n$ es <strong>par</strong>, la rosa tiene el doble: <strong>$2n$ pétalos</strong>.<br>
+                    • El valor $a$ indica el largo de cada pétalo.
+                </p>
+            </div>
+        </div>
+
+        <div class="workspace-grid">
+            <!-- Ejercicio 2.6 -->
+            <div class="exercise-card">
+                <div class="problem-statement">
+                    <strong>📘 Ejercicio Resuelto (Stewart, 8.ª ed., Sección 10.3, Ejemplo 8):</strong>
+                    Trace la curva determinada por la ecuación polar:
+                    $$r = 2\cos(3\theta)$$
+                    Determine cuántos pétalos tiene, cuál es su longitud máxima y en qué ángulos se encuentran las puntas de los pétalos.
+                </div>
+
+                <div class="step">
+                    <span class="step-title">Paso 1: Identificar la forma de la figura</span>
+                    <p>La ecuación tiene la forma $r = a\cos(n\theta)$ con $a = 2$ y $n = 3$. Como $n = 3$ es un número <strong>impar</strong>, se trata de una <strong>rosa polar de 3 pétalos</strong> donde cada pétalo mide $a = 2$ unidades de largo.</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-title">Paso 2: Tabular ángulos clave para ver el primer pétalo</span>
+                    <p>Multiplicamos el ángulo por $3$ antes de sacar el coseno:</p>
+                    <table class="val-table">
+                        <thead>
+                        <tr><th>$\theta$</th><th>$0$ ($0^\circ$)</th><th>$\pi/6$ ($30^\circ$)</th><th>$\pi/3$ ($60^\circ$)</th><th>$\pi/2$ ($90^\circ$)</th><th>$2\pi/3$ ($120^\circ$)</th><th>$\pi$ ($180^\circ$)</th></tr>
+                        </thead>
+                        <tbody>
+                        <tr><td><strong>$3\theta$</strong></td><td>$0$</td><td>$\pi/2$</td><td>$\pi$</td><td>$3\pi/2$</td><td>$2\pi$</td><td>$3\pi$</td></tr>
+                        <tr><td><strong>$r = 2\cos(3\theta)$</strong></td><td>$2$</td><td>$0$</td><td>$-2$</td><td>$0$</td><td>$2$</td><td>$-2$</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="step">
+                    <span class="step-title">Paso 3: Ubicar las 3 puntas de los pétalos</span>
+                    <p>
+                        • En $\theta = 0^\circ$, $r = 2$ (punta del primer pétalo sobre el eje horizontal derecho).<br>
+                        • En $\theta = 60^\circ$ ($\pi/3$), como $r = -2$ es negativo, se refleja al lado opuesto en $240^\circ$ ($4\pi/3$).<br>
+                        • En $\theta = 120^\circ$ ($2\pi/3$), $r = 2$ (punta del pétalo superior izquierdo).<br>
+                        ¡La rosa completa de 3 pétalos queda totalmente dibujada apenas $\theta$ recorre de $0$ a $\pi$ ($180^\circ$)!
+                    </p>
+                </div>
+
+                <div class="apa-box">
+                    <span>📚 Referencia Bibliográfica:</span>
+                    <p class="apa-text">
+                        Stewart, J. (2018). <em>Cálculo de varias variables: Trascendentes tempranas</em> (8.ª ed., p. 664). Cengage Learning.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Simulador 2.6 -->
+            <div class="simulator-card">
+                <div class="sim-header">
+                    <div class="sim-title"><span class="live-dot"></span> Simulador 2.6: Trazador de Rosas Polares</div>
+                    <div>
+                        <button class="btn" id="play-2-6">▶ Animar</button>
+                        <button class="btn btn-magenta" id="reset-2-6">↺ Ejercicio ($n=3$)</button>
+                    </div>
+                </div>
+
+                <div class="canvas-wrapper">
+                    <canvas id="canvas-2-6"></canvas>
+                </div>
+
+                <div class="sim-controls">
+                    <div class="control-row">
+                        <label for="slider-2-6-th">Barrido $\theta$ (rad):</label>
+                        <input type="range" id="slider-2-6-th" min="0" max="6.283" step="0.02" value="3.142">
+                    </div>
+                    <div class="control-row">
+                        <label for="slider-2-6-n">Factor $n$ ($r=2\cos n\theta$):</label>
+                        <input type="range" id="slider-2-6-n" min="1" max="6" step="1" value="3">
+                    </div>
+                    <div class="readout-bar">
+                        <div class="readout-item"><span>Ecuación Activa</span><strong id="out-2-6-eq">r = 2 cos(3θ)</strong></div>
+                        <div class="readout-item"><span>Ángulo $\theta$</span><strong id="out-2-6-th">3.14 rad (180°)</strong></div>
+                        <div class="readout-item"><span>Radio $r(\theta)$</span><strong id="out-2-6-r">-2.00</strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- ==================== PIE DE PÁGINA ==================== -->
+<footer>
+    <p><strong>Instituto Tecnológico de Cerro Azul (TecNM)</strong> • Ingeniería en Sistemas Computacionales</p>
+    <p style="margin-top:0.35rem;">
+        Materia: Cálculo Vectorial • Docente: Dr. Oscar Alberto Garizurieta Castillo • Grupo 1 (3er Semestre, Agosto - Diciembre 2026)
+    </p>
+</footer>
+
+<!-- ==================== SCRIPTS DE LOS 6 SIMULADORES ==================== -->
+<script>
+    // Función auxiliar para preparar cualquier Canvas en alta definición (Retina/HiDPI)
+    function setupCanvas(canvas) {
+        const rect = canvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        const ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+        return { ctx, w: rect.width, h: rect.height };
+    }
+
+    // Dibuja cuadrícula cartesiana con ejes y numeración
+    function drawCartesianGrid(ctx, w, h, ox, oy, scale) {
+        ctx.clearRect(0, 0, w, h);
+
+        // Líneas secundarias
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+        ctx.lineWidth = 1;
+        for (let x = ox % scale; x < w; x += scale) {
+            ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+        }
+        for (let y = oy % scale; y < h; y += scale) {
+            ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+        }
+
+        // Ejes principales
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(0, oy); ctx.lineTo(w, oy);
+        ctx.moveTo(ox, 0); ctx.lineTo(ox, h);
+        ctx.stroke();
+
+        // Numeración
+        ctx.fillStyle = 'rgba(148, 163, 184, 0.75)';
+        ctx.font = '11px JetBrains Mono, monospace';
+        for (let i = -10; i <= 12; i++) {
+            if (i === 0) continue;
+            const px = ox + i * scale;
+            const py = oy - i * scale;
+            if (px > 15 && px < w - 15) ctx.fillText(i, px - 4, oy + 14);
+            if (py > 15 && py < h - 15) ctx.fillText(i, ox + 6, py + 4);
+        }
+    }
+
+    // Dibuja cuadrícula polar (tipo radar)
+    function drawPolarGrid(ctx, w, h, ox, oy, scale, maxR = 3) {
+        ctx.clearRect(0, 0, w, h);
+
+        // Círculos concéntricos
+        for (let r = 1; r <= maxR; r++) {
+            ctx.strokeStyle = 'rgba(0, 210, 255, 0.12)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.arc(ox, oy, r * scale, 0, Math.PI * 2);
+            ctx.stroke();
+
+            ctx.fillStyle = 'rgba(148, 163, 184, 0.7)';
+            ctx.font = '11px JetBrains Mono, monospace';
+            ctx.fillText('r=' + r, ox + r * scale + 3, oy + 12);
+        }
+
+        // Rayos angulares cada 30°
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.07)';
+        for (let deg = 0; deg < 180; deg += 30) {
+            const rad = deg * Math.PI / 180;
+            const R = (maxR + 0.4) * scale;
+            ctx.beginPath();
+            ctx.moveTo(ox - R * Math.cos(rad), oy + R * Math.sin(rad));
+            ctx.lineTo(ox + R * Math.cos(rad), oy - R * Math.sin(rad));
+            ctx.stroke();
+        }
+
+        // Ejes principales
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+        ctx.lineWidth = 1.4;
+        ctx.beginPath();
+        ctx.moveTo(0, oy); ctx.lineTo(w, oy);
+        ctx.moveTo(ox, 0); ctx.lineTo(ox, h);
+        ctx.stroke();
+    }
+
+    /* ==========================================================
+       SIMULADOR 2.1: x = t^2 - 2t, y = t + 1 (-2 <= t <= 4)
+    ========================================================== */
+    const s21 = document.getElementById('slider-2-1');
+    const c21 = document.getElementById('canvas-2-1');
+    let anim21 = null;
+
+    function render21() {
+        const { ctx, w, h } = setupCanvas(c21);
+        const scale = Math.min(w, h) / 11;
+        const ox = w * 0.28;
+        const oy = h * 0.74;
+
+        drawCartesianGrid(ctx, w, h, ox, oy, scale);
+
+        const tMax = parseFloat(s21.value);
+
+        // Curva completa fantasma
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.14)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (let t = -2; t <= 4.01; t += 0.05) {
+            const x = ox + (t * t - 2 * t) * scale;
+            const y = oy - (t + 1) * scale;
+            if (t === -2) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // Tramo recorrido hasta tMax
+        ctx.strokeStyle = '#00d2ff';
+        ctx.lineWidth = 3.2;
+        ctx.beginPath();
+        for (let t = -2; t <= tMax; t += 0.03) {
+            const x = ox + (t * t - 2 * t) * scale;
+            const y = oy - (t + 1) * scale;
+            if (t === -2) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // Puntos enteros de la tabla
+        for (let ti = -2; ti <= 4; ti++) {
+            const px = ox + (ti * ti - 2 * ti) * scale;
+            const py = oy - (ti + 1) * scale;
+            ctx.fillStyle = ti <= tMax ? '#00d2ff' : 'rgba(255,255,255,0.25)';
+            ctx.beginPath();
+            ctx.arc(px, py, 3.5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Punto actual
+        const cx = tMax * tMax - 2 * tMax;
+        const cy = tMax + 1;
+        const sx = ox + cx * scale;
+        const sy = oy - cy * scale;
+
+        ctx.fillStyle = '#ff2a85';
+        ctx.beginPath();
+        ctx.arc(sx, sy, 7, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        document.getElementById('out-2-1-t').textContent = tMax.toFixed(2);
+        document.getElementById('out-2-1-x').textContent = cx.toFixed(2);
+        document.getElementById('out-2-1-y').textContent = cy.toFixed(2);
+    }
+
+    s21.addEventListener('input', render21);
+    document.getElementById('play-2-1').addEventListener('click', function() {
+        if (anim21) { cancelAnimationFrame(anim21); anim21 = null; this.textContent = '▶ Animar'; return; }
+        this.textContent = '⏸ Pausar';
+        if (parseFloat(s21.value) >= 4) s21.value = -2;
+        const step = () => {
+            let v = parseFloat(s21.value) + 0.03;
+            if (v > 4) { s21.value = 4; render21(); anim21 = null; document.getElementById('play-2-1').textContent = '▶ Animar'; return; }
+            s21.value = v;
+            render21();
+            anim21 = requestAnimationFrame(step);
+        };
+        anim21 = requestAnimationFrame(step);
+    });
+    document.getElementById('reset-2-1').addEventListener('click', () => { s21.value = 1; render21(); });
+
+    /* ==========================================================
+       SIMULADOR 2.2: x = r cos(t), y = r sin(t)
+    ========================================================== */
+    const s22 = document.getElementById('slider-2-2');
+    const s22r = document.getElementById('slider-2-2-r');
+    const c22 = document.getElementById('canvas-2-2');
+    let anim22 = null;
+
+    function render22() {
+        const { ctx, w, h } = setupCanvas(c22);
+        const scale = Math.min(w, h) / 8.2;
+        const ox = w / 2;
+        const oy = h / 2;
+
+        drawCartesianGrid(ctx, w, h, ox, oy, scale);
+
+        const tMax = parseFloat(s22.value);
+        const r = parseFloat(s22r.value);
+
+        // Círculo guía
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(ox, oy, r * scale, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Arco trazado
+        ctx.strokeStyle = '#00d2ff';
+        ctx.lineWidth = 3.2;
+        ctx.beginPath();
+        for (let t = 0; t <= tMax; t += 0.03) {
+            const px = ox + r * Math.cos(t) * scale;
+            const py = oy - r * Math.sin(t) * scale;
+            if (t === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+
+        const cx = r * Math.cos(tMax);
+        const cy = r * Math.sin(tMax);
+        const sx = ox + cx * scale;
+        const sy = oy - cy * scale;
+
+        // Triángulo de proyecciones cos y sin
+        ctx.setLineDash([4, 4]);
+        ctx.strokeStyle = '#00e676';
+        ctx.beginPath();
+        ctx.moveTo(ox, oy); ctx.lineTo(sx, oy); ctx.lineTo(sx, sy);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Radio vector
+        ctx.strokeStyle = '#ff2a85';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(ox, oy); ctx.lineTo(sx, sy);
+        ctx.stroke();
+
+        // Punto móvil
+        ctx.fillStyle = '#ff2a85';
+        ctx.beginPath();
+        ctx.arc(sx, sy, 6.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        const deg = Math.round(tMax * 180 / Math.PI);
+        document.getElementById('out-2-2-t').textContent = `${tMax.toFixed(2)} rad (${deg}°)`;
+        document.getElementById('out-2-2-x').textContent = cx.toFixed(2);
+        document.getElementById('out-2-2-y').textContent = cy.toFixed(2);
+    }
+
+    s22.addEventListener('input', render22);
+    s22r.addEventListener('input', render22);
+    document.getElementById('play-2-2').addEventListener('click', function() {
+        if (anim22) { cancelAnimationFrame(anim22); anim22 = null; this.textContent = '▶ Animar'; return; }
+        this.textContent = '⏸ Pausar';
+        if (parseFloat(s22.value) >= 6.25) s22.value = 0;
+        const step = () => {
+            let v = parseFloat(s22.value) + 0.03;
+            if (v > 6.283) { s22.value = 6.283; render22(); anim22 = null; document.getElementById('play-2-2').textContent = '▶ Animar'; return; }
+            s22.value = v;
+            render22();
+            anim22 = requestAnimationFrame(step);
+        };
+        anim22 = requestAnimationFrame(step);
+    });
+    document.getElementById('reset-2-2').addEventListener('click', () => {
+        s22.value = 1.05; s22r.value = 2; render22();
+    });
+
+    /* ==========================================================
+       SIMULADOR 2.3: x = t^2, y = t^3 - 3t (Tangente)
+    ========================================================== */
+    const s23 = document.getElementById('slider-2-3');
+    const c23 = document.getElementById('canvas-2-3');
+
+    function render23() {
+        const { ctx, w, h } = setupCanvas(c23);
+        const scale = Math.min(w, h) / 9.5;
+        const ox = w * 0.25;
+        const oy = h * 0.5;
+
+        drawCartesianGrid(ctx, w, h, ox, oy, scale);
+
+        // Dibujar curva x = t^2, y = t^3 - 3t
+        ctx.strokeStyle = '#00d2ff';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        for (let t = -2.3; t <= 2.3; t += 0.03) {
+            const px = ox + (t * t) * scale;
+            const py = oy - (t * t * t - 3 * t) * scale;
+            if (t === -2.3) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+
+        const t0 = parseFloat(s23.value);
+        const x0 = t0 * t0;
+        const y0 = t0 * t0 * t0 - 3 * t0;
+        const sx = ox + x0 * scale;
+        const sy = oy - y0 * scale;
+
+        const dxdt = 2 * t0;
+        const dydt = 3 * t0 * t0 - 3;
+
+        // Dibujar recta tangente
+        ctx.strokeStyle = '#ff2a85';
+        ctx.lineWidth = 2.4;
+        ctx.beginPath();
+        if (Math.abs(dxdt) < 0.01) {
+            // Tangente vertical en t = 0
+            ctx.moveTo(sx, 0);
+            ctx.lineTo(sx, h);
+            document.getElementById('out-2-3-m').textContent = '∞ (Vertical)';
+        } else {
+            const m = dydt / dxdt;
+            const xLeft = -2;
+            const xRight = 8;
+            const yLeft = y0 + m * (xLeft - x0);
+            const yRight = y0 + m * (xRight - x0);
+            ctx.moveTo(ox + xLeft * scale, oy - yLeft * scale);
+            ctx.lineTo(ox + xRight * scale, oy - yRight * scale);
+            document.getElementById('out-2-3-m').textContent = m.toFixed(2);
+        }
+        ctx.stroke();
+
+        // Punto de tangencia
+        ctx.fillStyle = '#00e676';
+        ctx.beginPath();
+        ctx.arc(sx, sy, 6.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        document.getElementById('out-2-3-t').textContent = t0.toFixed(2);
+        document.getElementById('out-2-3-pt').textContent = `(${x0.toFixed(2)}, ${y0.toFixed(2)})`;
+    }
+
+    s23.addEventListener('input', render23);
+    document.getElementById('btn-t2-2-3').addEventListener('click', () => { s23.value = 2; render23(); });
+    document.getElementById('btn-horiz-2-3').addEventListener('click', () => { s23.value = 1; render23(); });
+
+    /* ==========================================================
+       SIMULADOR 2.4: Longitud de Arco x = 1 + 3t^2, y = 4 + 2t^3
+    ========================================================== */
+    const s24a = document.getElementById('slider-2-4-a');
+    const s24b = document.getElementById('slider-2-4-b');
+    const c24 = document.getElementById('canvas-2-4');
+
+    function render24() {
+        const { ctx, w, h } = setupCanvas(c24);
+        const scale = Math.min(w, h) / 9.5;
+        const ox = w * 0.14;
+        const oy = h * 0.88;
+
+        drawCartesianGrid(ctx, w, h, ox, oy, scale);
+
+        let ta = parseFloat(s24a.value);
+        let tb = parseFloat(s24b.value);
+        if (ta >= tb) { tb = Math.min(1.2, ta + 0.1); s24b.value = tb; }
+
+        // Curva base completa
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        for (let t = 0; t <= 1.22; t += 0.02) {
+            const px = ox + (1 + 3 * t * t) * scale;
+            const py = oy - (4 + 2 * t * t * t) * scale;
+            if (t === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+
+        // Tramo medido resaltado
+        ctx.strokeStyle = '#00e676';
+        ctx.lineWidth = 4.5;
+        ctx.beginPath();
+        for (let t = ta; t <= tb; t += 0.01) {
+            const px = ox + (1 + 3 * t * t) * scale;
+            const py = oy - (4 + 2 * t * t * t) * scale;
+            if (t === ta) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+
+        // Extremos A y B
+        const xa = 1 + 3 * ta * ta, ya = 4 + 2 * Math.pow(ta, 3);
+        const xb = 1 + 3 * tb * tb, yb = 4 + 2 * Math.pow(tb, 3);
+
+        ctx.fillStyle = '#00d2ff';
+        ctx.beginPath(); ctx.arc(ox + xa * scale, oy - ya * scale, 6, 0, Math.PI * 2); ctx.fill();
+
+        ctx.fillStyle = '#ff2a85';
+        ctx.beginPath(); ctx.arc(ox + xb * scale, oy - yb * scale, 6, 0, Math.PI * 2); ctx.fill();
+
+        // Integral exacta: L = [ 2*(1 + t^2)^(3/2) ] de ta a tb
+        const len = 2 * Math.pow(1 + tb * tb, 1.5) - 2 * Math.pow(1 + ta * ta, 1.5);
+
+        document.getElementById('out-2-4-int').textContent = `[${ta.toFixed(2)}, ${tb.toFixed(2)}]`;
+        document.getElementById('out-2-4-pt').textContent = `(${xb.toFixed(2)}, ${yb.toFixed(2)})`;
+        document.getElementById('out-2-4-len').textContent = `${len.toFixed(4)} u`;
+    }
+
+    s24a.addEventListener('input', render24);
+    s24b.addEventListener('input', render24);
+    document.getElementById('reset-2-4').addEventListener('click', () => {
+        s24a.value = 0; s24b.value = 1; render24();
+    });
+
+    /* ==========================================================
+       SIMULADOR 2.5: Coordenadas Polares (r, theta) <-> (x, y)
+    ========================================================== */
+    const s25r = document.getElementById('slider-2-5-r');
+    const s25th = document.getElementById('slider-2-5-th');
+    const c25 = document.getElementById('canvas-2-5');
+
+    function render25() {
+        const { ctx, w, h } = setupCanvas(c25);
+        const scale = Math.min(w, h) / 8;
+        const ox = w / 2;
+        const oy = h / 2;
+
+        drawPolarGrid(ctx, w, h, ox, oy, scale, 3);
+
+        const r = parseFloat(s25r.value);
+        const deg = parseFloat(s25th.value);
+        const rad = deg * Math.PI / 180;
+
+        const x = r * Math.cos(rad);
+        const y = r * Math.sin(rad);
+        const sx = ox + x * scale;
+        const sy = oy - y * scale;
+
+        // Arco del ángulo theta
+        ctx.strokeStyle = '#ffab00';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(ox, oy, 28, 0, -rad, true);
+        ctx.stroke();
+
+        // Triángulo rectángulo cartesiano (x, y)
+        ctx.setLineDash([4, 4]);
+        ctx.strokeStyle = '#00e676';
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.moveTo(ox, oy); ctx.lineTo(sx, oy); ctx.lineTo(sx, sy);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Brazo polar r
+        ctx.strokeStyle = '#00d2ff';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(ox, oy); ctx.lineTo(sx, sy);
+        ctx.stroke();
+
+        // Punto
+        ctx.fillStyle = '#ff2a85';
+        ctx.beginPath();
+        ctx.arc(sx, sy, 7, 0, Math.PI * 2);
+        ctx.fill();
+
+        document.getElementById('out-2-5-pol').textContent = `(${r.toFixed(1)}, ${deg}°)`;
+        document.getElementById('out-2-5-x').textContent = x.toFixed(3);
+        document.getElementById('out-2-5-y').textContent = y.toFixed(3);
+    }
+
+    s25r.addEventListener('input', render25);
+    s25th.addEventListener('input', render25);
+    document.getElementById('btn-ex-2-5').addEventListener('click', () => {
+        s25r.value = 2; s25th.value = 60; render25();
+    });
+
+    /* ==========================================================
+       SIMULADOR 2.6: Rosa Polar r = 2 cos(n * theta)
+    ========================================================== */
+    const s26th = document.getElementById('slider-2-6-th');
+    const s26n = document.getElementById('slider-2-6-n');
+    const c26 = document.getElementById('canvas-2-6');
+    let anim26 = null;
+
+    function render26() {
+        const { ctx, w, h } = setupCanvas(c26);
+        const scale = Math.min(w, h) / 6.2;
+        const ox = w / 2;
+        const oy = h / 2;
+
+        drawPolarGrid(ctx, w, h, ox, oy, scale, 2);
+
+        const thMax = parseFloat(s26th.value);
+        const n = parseInt(s26n.value, 10);
+
+        // Rosa completa tenue de fondo
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        for (let th = 0; th <= Math.PI * 2; th += 0.02) {
+            const r = 2 * Math.cos(n * th);
+            const px = ox + r * Math.cos(th) * scale;
+            const py = oy - r * Math.sin(th) * scale;
+            if (th === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+
+        // Rosa trazada hasta thMax
+        ctx.strokeStyle = '#ff2a85';
+        ctx.lineWidth = 3.2;
+        ctx.beginPath();
+        for (let th = 0; th <= thMax; th += 0.015) {
+            const r = 2 * Math.cos(n * th);
+            const px = ox + r * Math.cos(th) * scale;
+            const py = oy - r * Math.sin(th) * scale;
+            if (th === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+
+        // Brazo actual
+        const rNow = 2 * Math.cos(n * thMax);
+        const sx = ox + rNow * Math.cos(thMax) * scale;
+        const sy = oy - rNow * Math.sin(thMax) * scale;
+
+        ctx.strokeStyle = '#00d2ff';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(ox, oy); ctx.lineTo(sx, sy);
+        ctx.stroke();
+
+        ctx.fillStyle = '#00d2ff';
+        ctx.beginPath();
+        ctx.arc(sx, sy, 6.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        const deg = Math.round(thMax * 180 / Math.PI);
+        document.getElementById('out-2-6-eq').textContent = `r = 2 cos(${n}θ)`;
+        document.getElementById('out-2-6-th').textContent = `${thMax.toFixed(2)} rad (${deg}°)`;
+        document.getElementById('out-2-6-r').textContent = rNow.toFixed(2);
+    }
+
+    s26th.addEventListener('input', render26);
+    s26n.addEventListener('input', render26);
+    document.getElementById('play-2-6').addEventListener('click', function() {
+        if (anim26) { cancelAnimationFrame(anim26); anim26 = null; this.textContent = '▶ Animar'; return; }
+        this.textContent = '⏸ Pausar';
+        if (parseFloat(s26th.value) >= 6.2) s26th.value = 0;
+        const step = () => {
+            let v = parseFloat(s26th.value) + 0.025;
+            if (v > 6.283) { s26th.value = 6.283; render26(); anim26 = null; document.getElementById('play-2-6').textContent = '▶ Animar'; return; }
+            s26th.value = v;
+            render26();
+            anim26 = requestAnimationFrame(step);
+        };
+        anim26 = requestAnimationFrame(step);
+    });
+    document.getElementById('reset-2-6').addEventListener('click', () => {
+        s26n.value = 3; s26th.value = 3.142; render26();
+    });
+
+    // Inicializar todos los simuladores al cargar o redimensionar la ventana
+    function initAll() {
+        render21(); render22(); render23(); render24(); render25(); render26();
+    }
+    window.addEventListener('load', initAll);
+    window.addEventListener('resize', initAll);
+</script>
+</body>
+</html>
