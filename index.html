@@ -100,8 +100,27 @@
     }
     .students-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(235px, 1fr)); gap: 0.55rem 0.9rem; list-style: none; }
     .student-item {
-      display: flex; align-items: center; gap: 0.55rem; background: rgba(255, 255, 255, 0.025);
-      border: 1px solid rgba(255, 255, 255, 0.06); padding: 0.45rem 0.7rem; border-radius: 8px; font-size: 0.82rem; color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      font-size: 0.82rem;
+      transition: all 0.2s ease;
+    }
+    .student-item:hover {
+      border-color: rgba(0, 210, 255, 0.4);
+      background: rgba(0, 210, 255, 0.07);
+      transform: translateY(-1px);
+    }
+    .student-item a,
+    .student-item a:visited,
+    .student-item a:active {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      width: 100%;
+      padding: 0.45rem 0.7rem;
+      color: var(--text-primary);
+      text-decoration: none;
     }
     .student-num {
       font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 600; color: var(--cyan);
